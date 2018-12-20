@@ -1,5 +1,6 @@
 <template>
   <div class="food-card">
+    <CardHeader />
     <VoteCount voteType="👍" />
     <VoteCount voteType="👎" />
   </div>
@@ -7,11 +8,13 @@
 
 <script>
   import VoteCount from '../atoms/VoteCount';
+  import CardHeader from '../molecules/CardHeader';
 
   export default {
     name: 'FoodCard',
     components: {
       VoteCount,
+      CardHeader,
     },
   }
 </script>
