@@ -1,20 +1,20 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <VoteCount voteType="👍" />
-    <VoteCount voteType="👎" />
+
+    <FoodCard />
   </div>
 </template>
 
 <script>
-import VoteCount from './components/atoms/VoteCount.vue'
+  import FoodCard from './components/organisms/FoodCard';
 
-export default {
-  name: 'app',
-  components: {
-    VoteCount
+  export default {
+    name: 'app',
+    components: {
+      FoodCard,
+    }
   }
-}
 </script>
 
 <style scoped>
