@@ -1,9 +1,13 @@
 <template>
   <div class="food-card">
-    <CardHeader />
-    <VoteCount voteType="👍" />
-    <VoteCount voteType="👎" />
-    <CardDescription />
+    <CardHeader title="Food Title" />
+    <div class="card-body">
+      <div class="vote-container">
+        <VoteCount voteType="👍" />
+        <VoteCount voteType="👎" />
+      </div>
+      <CardDescription />
+    </div>
   </div>
 </template>
 
@@ -27,5 +31,10 @@
     border: 1px solid #999;
     margin: auto;
     width: 960px;
+  }
+  
+  .card-body {
+    display: flex;
+    justify-content: space-between;
   }
 </style>
