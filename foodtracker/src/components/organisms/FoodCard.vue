@@ -8,6 +8,7 @@
       </div>
       <CardDescription />
     </div>
+    <AddComment />
   </div>
 </template>
 
@@ -15,6 +16,7 @@
   import VoteCount from '../atoms/VoteCount';
   import CardHeader from '../molecules/CardHeader';
   import CardDescription from '../molecules/CardDescription';
+  import AddComment from '../molecules/AddComment';
 
   export default {
     name: 'FoodCard',
@@ -22,6 +24,7 @@
       VoteCount,
       CardHeader,
       CardDescription,
+      AddComment,
     },
   }
 </script>
