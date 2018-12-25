@@ -15,13 +15,13 @@
         {{ food.description }}
       </div>
     </div>
-    <AddComment />
+    <ViewComments />
   </div>
 </template>
 
 <script>
   import VoteCount from '../atoms/VoteCount';
-  import AddComment from '../molecules/AddComment';
+  import ViewComments from '../molecules/ViewComments';
 
   export default {
     name: 'FoodCard',
@@ -30,7 +30,7 @@
     },
     components: {
       VoteCount,
-      AddComment,
+      ViewComments,
     },
     methods: {
       moreVote(voteType) {

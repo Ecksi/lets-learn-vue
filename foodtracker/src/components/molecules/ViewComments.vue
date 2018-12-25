@@ -1,17 +1,17 @@
 <template>
   <div>
-    <button class="add-comment">View comments</button>
+    <button class="view-comments">View comments</button>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'AddComment'
+    name: 'ViewComments'
   }
 </script>
 
 <style scoped>
-.add-comment {
+.view-comments {
   border: none;
   cursor: pointer;
   position: relative;
