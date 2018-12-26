@@ -1,40 +1,96 @@
 <template>
   <div class="food-card" :id="food.id">
-    <!-- <CardHeader :name="food.name" :date="food.created_at" /> -->
+    <!-- Header -->
     <div class="card-header">
       <span class="title">{{ food.name }}</span>
-      <span class="date">{{ sanitizeDate }}</span>
+      <DateSanitizer :date="food.created_at" />
     </div>
+    <!-- Body -->
     <div class="card-body">
-      <div class="vote-container">
-        <VoteCount v-on:addVote="moreVote" class="up-vote" :count="food.up_vote" voteType="up" />
-        <VoteCount v-on:addVote="moreVote" :count="food.down_vote" voteType="down" />
-      </div>
-      <!-- <CardDescription :description="food.description" /> -->
+      <VoteMachine v-on:addVote="addVote" :upvote="food.up_vote" :downvote="food.down_vote" />
       <div class="card-description">
         {{ food.description }}
       </div>
     </div>
-    <ViewComments />
+    <!-- Footer -->
+    <div v-if="!show" class="right">
+      <button @click="fetchComments" class="view-comments">View comments</button>
+    </div>
+    <CommentForm  v-else v-on:delete="deleteComment" v-on:addComment="addComment" v-on:addVoteComment="commentVote" :comments="comments" v-on:hideComments="hideComments" />
   </div>
 </template>
 
 <script>
-  import VoteCount from '../atoms/VoteCount';
-  import ViewComments from '../molecules/ViewComments';
+  import VoteMachine from '../organisms/VoteMachine';
+  import CommentForm from '../molecules/CommentForm';
+  import DateSanitizer from '../atoms/DateSanitizer';
 
   export default {
     name: 'FoodCard',
+    data: () => {
+      return {
+        comments: [],
+        show: !true
+      }
+    },
     props: {
       food: Object,
     },
     components: {
-      VoteCount,
-      ViewComments,
+      VoteMachine,
+      CommentForm,
+      DateSanitizer,
     },
     methods: {
-      moreVote(voteType) {
+      addVote(voteType) {
         this.$emit('addVote', voteType, this.food.id);
+      },
+      fetchComments() {
+        this.show = !this.show;
+        fetch(`https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food/${this.food.id}/comment`)
+          .then(res => res.json())
+          .then(data => this.comments = data)
+      },
+      commentVote(type, id) {
+        fetch(`https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food/${this.food.id}/comment/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify({vote: type}),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+        .then(response => {
+          console.log('Success:', JSON.stringify(response));
+          this.comments.forEach(el => el.id === id ? el[type+'_vote'] += 1 : '');
+        })
+        .catch(error => console.error('Error:', error));
+      },
+      addComment(text) {
+        fetch(`https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food/${this.food.id}/comment/`, {
+          method: 'POST',
+          body: JSON.stringify({comment: text}),
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+        .then(response => {
+          console.log('Success:', JSON.stringify(response));
+          this.comments.push(response);
+        })
+        .catch(error => console.error('Error:', error));
+      },
+      deleteComment(id) {
+        fetch(`https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food/${this.food.id}/comment/${id}`, {
+          method: 'DELETE',
+        }).then(res => res.json())
+        .then(response => {
+          console.log('Success:', JSON.stringify(response));
+          this.comments.filter(el => el.id !== id);
+        })
+        .catch(error => console.error('Error:', error));
+      },
+      hideComments() {
+        this.show = !this.show;
       }
     },
     computed: {
@@ -52,45 +108,41 @@
 </script>
 
 <style scoped>
-  .food-card {
-    border: 1px solid #999;
-    margin: 20px auto;
-    max-width: 660px;
-  }
+.food-card {
+  border: 1px solid #999;
+  margin: 20px auto;
+  max-width: 660px;
+}
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 15px 0 15px;
-  }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px 0 15px;
+}
 
-  .date {
-    font-family: 'system-ui', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 14px;
-    font-weight: 100;
-    color: #555;
-  }
-  
-  .card-body {
-    display: flex;
-    justify-content: space-between;
-  }
+.card-body {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .vote-container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 15px;
-    margin-top: 15px;
-  }
+.card-description {
+  width: 100%;
+  text-align: left;
+  padding-left: 5px;
+  padding-top: 20px;
+}
 
-  .up-vote {
-    margin-bottom: 10px;
-  }
+.right {
+  text-align: right;
+  margin-right: 8px;
+}
 
-  .card-description {
-    width: 100%;
-    text-align: left;
-    padding-left: 5px;
-    padding-top: 20px;
-  }
+.view-comments {
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 100;
+  color: #555;
+}
 </style>
