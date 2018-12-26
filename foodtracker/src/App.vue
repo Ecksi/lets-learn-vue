@@ -13,6 +13,16 @@
         most comments
         newest
         name
+
+        semantic lists for v-for
+        extract cardBody as component
+        import fetch from external jsFile
+
+        toy with refetch
+        vuex later
+
+        import momentjs and replace datesanitizer
+        test
    -->
 </template>
 

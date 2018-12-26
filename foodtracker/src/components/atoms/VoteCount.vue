@@ -1,5 +1,5 @@
 <template>
-  <div class="vote">
+  <div>
     <span>{{ count }}</span>
     <span v-on:click="addVote(voteType)">{{ voteType === 'up' ? "👍" : "👎" }}</span>
   </div>

@@ -16,7 +16,7 @@
     <div v-if="!show" class="right">
       <button @click="fetchComments" class="view-comments">View comments</button>
     </div>
-    <CommentForm  v-else v-on:delete="deleteComment" v-on:addComment="addComment" v-on:addVoteComment="commentVote" :comments="comments" v-on:hideComments="hideComments" />
+    <CommentForm v-else v-on:delete="deleteComment" v-on:addComment="addComment" v-on:addVoteComment="commentVote" :comments="comments" v-on:hideComments="hideComments" />
   </div>
 </template>
 
