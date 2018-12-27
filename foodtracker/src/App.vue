@@ -1,23 +1,15 @@
 <template>
   <div id="app">
     <AppHeader @addFood="addFood" />
+    <Filters></Filters>
     <ul v-for="food in foods" :key="food.id" class="card-list">
       <li><FoodCard :food="food" @addVote="addVote" /></li>
     </ul>
   </div>
   <!-- limit search to 3 per page
-
-      add search filters 
-        most upvotes
-        most downvotes
-        most comments
-        newest
-        name
         import fetch from external jsFile
-
         toy with refetch
         vuex later
-
         import momentjs and replace datesanitizer
         test
    -->
@@ -25,12 +17,14 @@
 
 <script>
   import AppHeader from './components/molecules/AppHeader';
+  import Filters from './components/molecules/Filters';
   import FoodCard from './components/organisms/FoodCard';
 
   export default {
     name: 'app',
     components: {
       AppHeader,
+      Filters,
       FoodCard
     },
     data: () => {
