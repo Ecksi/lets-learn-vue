@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="card-body" :id="comment.id">
-      <VoteMachine v-on:addVote="addVote" :upvote="comment.up_vote" :downvote="comment.down_vote" />
-      <div class="card-description">
-        <div>{{ comment.comment }}</div>
-        <div v-on:click="deleteComment" class="delete-comment">&times;</div>
+      <div class="card-body">
+        <VoteMachine @addVote="addVote" :upvote="comment.up_vote" :downvote="comment.down_vote" />
+        <div class="card-description">{{ comment.comment }}</div>
       </div>
+      <div @click="deleteComment" class="delete-comment">&times;</div>
     </div>
     <div class="comment-date"><DateSanitizer :date="comment.created_at" /></div>
   </div>
@@ -72,9 +72,6 @@
 }
 
 .delete-comment {
-  position: relative;
-  left: 97%;
-  bottom: 65%;
   cursor: pointer;
 }
 </style>

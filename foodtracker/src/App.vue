@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <AppHeader v-on:addFood="addFood" />
+    <AppHeader @addFood="addFood" />
     <div v-for="food in foods" :key="food.id">
-      <FoodCard :food="food" v-on:addVote="addVote" />
+      <FoodCard :food="food" @addVote="addVote" />
     </div>
   </div>
   <!-- limit search to 3 per page

@@ -1,29 +1,18 @@
 <template>
   <div class="food-card" :id="food.id">
-    <!-- Header -->
-    <div class="card-header">
-      <span class="title">{{ food.name }}</span>
-      <DateSanitizer :date="food.created_at" />
-    </div>
-    <!-- Body -->
-    <div class="card-body">
-      <VoteMachine v-on:addVote="addVote" :upvote="food.up_vote" :downvote="food.down_vote" />
-      <div class="card-description">
-        {{ food.description }}
-      </div>
-    </div>
-    <!-- Footer -->
+    <CardHeader :date="food.created_at">{{ food.name }}</CardHeader>
+    <CardBody @addVote="addVote" :upvote="food.up_vote" :downvote="food.down_vote">{{ food.description }}</CardBody>
     <div v-if="!show" class="right">
       <button @click="fetchComments" class="view-comments">View comments</button>
     </div>
-    <CommentForm v-else v-on:delete="deleteComment" v-on:addComment="addComment" v-on:addVoteComment="commentVote" :comments="comments" v-on:hideComments="hideComments" />
+    <CommentForm v-else @delete="deleteComment" @addComment="addComment" @addVoteComment="commentVote" :comments="comments" @hideComments="hideComments" />
   </div>
 </template>
 
 <script>
-  import VoteMachine from '../organisms/VoteMachine';
+  import CardBody from '../molecules/CardBody';
+  import CardHeader from '../molecules/CardHeader';
   import CommentForm from '../molecules/CommentForm';
-  import DateSanitizer from '../atoms/DateSanitizer';
 
   export default {
     name: 'FoodCard',
@@ -37,9 +26,9 @@
       food: Object,
     },
     components: {
-      VoteMachine,
+      CardBody,
+      CardHeader,
       CommentForm,
-      DateSanitizer,
     },
     methods: {
       addVote(voteType) {
@@ -112,24 +101,6 @@
   border: 1px solid #999;
   margin: 20px auto;
   max-width: 660px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 15px 0 15px;
-}
-
-.card-body {
-  display: flex;
-  justify-content: space-between;
-}
-
-.card-description {
-  width: 100%;
-  text-align: left;
-  padding-left: 5px;
-  padding-top: 20px;
 }
 
 .right {
