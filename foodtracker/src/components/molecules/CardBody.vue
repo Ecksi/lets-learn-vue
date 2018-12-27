@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import VoteMachine from '../organisms/VoteMachine';
+  import VoteMachine from '../molecules/VoteMachine';
 
   export default {
     name: 'CardBody',

@@ -1,24 +1,23 @@
 <template>
   <div>
     <div class="card-body" :id="comment.id">
-      <div class="card-body">
-        <VoteMachine @addVote="addVote" :upvote="comment.up_vote" :downvote="comment.down_vote" />
-        <div class="card-description">{{ comment.comment }}</div>
-      </div>
-      <div @click="deleteComment" class="delete-comment">&times;</div>
+      <CardBody @addVote="addVote" :upvote="comment.up_vote" :downvote="comment.down_vote">{{ comment.comment }}</CardBody>
+      <DeleteThing @delete="deleteThing" />
     </div>
     <div class="comment-date"><DateSanitizer :date="comment.created_at" /></div>
   </div>
 </template>
 
 <script>
-  import VoteMachine from '../organisms/VoteMachine';
+  import CardBody from '../molecules/CardBody';
+  import DeleteThing from '../atoms/DeleteThing';
   import DateSanitizer from '../atoms/DateSanitizer';
 
   export default {
     name: 'Comment',
     components: {
-      VoteMachine,
+      CardBody,
+      DeleteThing,
       DateSanitizer,
     },
     props: {
@@ -28,7 +27,7 @@
       addVote(voteType) {
         this.$emit('addVote', voteType, this.comment.id)
       },
-      deleteComment() {
+      deleteThing() {
         this.$emit('delete', this.comment.id)
       }
     },
@@ -47,31 +46,9 @@
 </script>
 
 <style scoped>
-.card-body {
-  display: flex;
-  justify-content: space-between;
-}
-
-.vote-container {
-  display: flex;
-  flex-direction: column;
-  margin-left: 15px;
-  margin-top: 15px;
-}
-
-.card-description {
-  width: 100%;
-  text-align: left;
-  padding-top: 20px;
-}
-
 .comment-date {
   text-align: left;
   margin-top: 5px;
   margin-left: 60px;
-}
-
-.delete-comment {
-  cursor: pointer;
 }
 </style>

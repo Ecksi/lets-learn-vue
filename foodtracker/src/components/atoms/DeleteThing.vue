@@ -2,7 +2,6 @@
   <div @click="deleteThing" class="delete-thing">
     &times;
   </div>
-
 </template>
 
 <script>

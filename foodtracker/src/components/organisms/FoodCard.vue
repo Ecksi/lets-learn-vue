@@ -19,7 +19,7 @@
     data: () => {
       return {
         comments: [],
-        show: !true
+        show: false
       }
     },
     props: {
@@ -81,17 +81,6 @@
       hideComments() {
         this.show = !this.show;
       }
-    },
-    computed: {
-      sanitizeDate() {
-        const dateArr = new Date(this.food.created_at.split('T').join(' ')).toString().split(' ');
-        const date = dateArr[1]+" "+dateArr[2]+", "+dateArr[3]+" ";
-        const timeArr = dateArr[4].split(':');
-        timeArr[0] >= 12 ? (timeArr[0] -= 12, timeArr[2] = 'PM') : timeArr[2] = 'AM';
-        const time = timeArr[0]+':'+timeArr[1]+' '+timeArr[2];
-
-        return date + time;
-      },
     }
   }
 </script>
