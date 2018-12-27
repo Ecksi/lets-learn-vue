@@ -1,28 +1,27 @@
 <template>
   <div>
     <hr />
-    <div class="commentSplit">
-      <div>
-        <form v-on:submit="addComment" action="">
-          <textarea class="text-area" name="" id="" cols="80" rows="5"></textarea>
-          <span class="submit-spacer"><button class="submit-comment">Submit Comment</button></span>
-        </form>
-        <div v-for="comment in comments" :key="comment.id">
-          <Comment v-on:delete="deleteComment" v-on:addVote="addVote" :comment="comment" />
-        </div>
-      </div>
-      <div class="spacer"></div>
+    <div class="comment-form">
+      <section>
+        <AddComment @addComment="addComment"></AddComment>
+        <ul v-for="comment in comments" :key="comment.id" class="card-list">
+          <li><Comment v-on:delete="deleteComment" v-on:addVote="addVote" :comment="comment" /></li>
+        </ul>
+      </section>
+      <section class="spacer"></section>
     </div>
     <button v-on:click="hideComments" class="go-back">Go Back</button>
   </div>
 </template>
 
 <script>
+  import AddComment from './AddComment';
   import Comment from './Comment';
 
   export default {
     name: 'CommentForm',
     components: {
+      AddComment,
       Comment,
     },
     props: {
@@ -48,33 +47,16 @@
 </script>
 
 <style scoped>
-.commentSplit {
+.comment-form {
   display: flex;
 }
 
-.text-area {
-  margin: 25px 0 7px 45px;
-  resize: none;
+.card-list {
+  padding: 0;
 }
 
 .spacer {
   width: 25%;
-}
-
-.submit-comment {
-  border: 1px solid gray;
-  cursor: pointer;
-  text-align: right;
-  margin-bottom: 10px;
-  font-size: 14px;
-  font-weight: 100;
-  color: #555;
-}
-
-.submit-spacer {
-  display: inline-block;
-  width: 100%;
-  text-align: right;
 }
 
 .go-back {
