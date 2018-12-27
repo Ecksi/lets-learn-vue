@@ -10,9 +10,9 @@
 </template>
 
 <script>
-  import CardBody from '../molecules/CardBody';
-  import CardHeader from '../molecules/CardHeader';
-  import CommentForm from '../molecules/CommentForm';
+  import CardBody from '../molecules/card/CardBody';
+  import CardHeader from '../molecules/card/CardHeader';
+  import CommentForm from '../molecules/comment/CommentForm';
 
   export default {
     name: 'FoodCard',

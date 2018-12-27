@@ -9,9 +9,9 @@
 </template>
 
 <script>
-  import CardBody from '../molecules/CardBody';
-  import DeleteThing from '../atoms/DeleteThing';
-  import DateSanitizer from '../atoms/DateSanitizer';
+  import CardBody from '../card/CardBody';
+  import DeleteThing from '../../atoms/DeleteThing';
+  import DateSanitizer from '../../atoms/DateSanitizer';
 
   export default {
     name: 'Comment',

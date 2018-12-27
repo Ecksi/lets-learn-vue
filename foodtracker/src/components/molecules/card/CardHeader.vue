@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import DateSanitizer from '../atoms/DateSanitizer';
+  import DateSanitizer from '../../atoms/DateSanitizer';
 
   export default {
     name: 'CardHeader',

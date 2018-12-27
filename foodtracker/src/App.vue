@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <AppHeader @addFood="addFood" />
-    <div v-for="food in foods" :key="food.id">
-      <FoodCard :food="food" @addVote="addVote" />
-    </div>
+    <ul v-for="food in foods" :key="food.id" class="card-list">
+      <li><FoodCard :food="food" @addVote="addVote" /></li>
+    </ul>
   </div>
   <!-- limit search to 3 per page
 
@@ -13,9 +13,6 @@
         most comments
         newest
         name
-
-        semantic lists for v-for
-        extract cardBody as component
         import fetch from external jsFile
 
         toy with refetch
@@ -85,12 +82,12 @@
   }
 </script>
 
-<style scoped>
-  #app {
-    text-align: center;
-  }
+<style>
+#app {
+  text-align: center;
+}
 
-  .food-card-container {
-    border-top: 1px solid #999;
-  }
+.card-list {
+  list-style-type: none;
+}
 </style>
