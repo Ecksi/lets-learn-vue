@@ -13,7 +13,7 @@
         vuex later
         import momentjs and replace datesanitizer
         test
-   -->
+    -->
 </template>
 
 <script>
@@ -38,9 +38,14 @@
       this.loading = true;
       fetch('https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food')
         .then(res => res.json())
-        .then(data => this.foods = data)
-        .catch(error => console.error('Error', error))
-      this.loading = false;
+        .then(data => {
+          this.foods = data;
+          this.loading = false;
+        })
+        .catch(error => {
+          this.loading = false;
+          console.error('Error', error);
+        })
     },
     methods: {
       addVote(type, id) {
