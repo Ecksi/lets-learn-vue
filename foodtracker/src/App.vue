@@ -2,7 +2,8 @@
   <div id="app">
     <AppHeader @addFood="addFood" />
     <Filters></Filters>
-    <ul v-for="food in foods" :key="food.id" class="card-list">
+    <img v-if="loading" src="https://media1.tenor.com/images/8ac12962c05648c55ca85771f4a69b2d/tenor.gif?itemid=9212724" alt="">
+    <ul v-else v-for="food in foods" :key="food.id" class="card-list">
       <li><FoodCard :food="food" @addVote="addVote" /></li>
     </ul>
   </div>
@@ -30,13 +31,16 @@
     data: () => {
       return {
         foods: [],
+        loading: false
       }
     },
     created() {
+      this.loading = true;
       fetch('https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food')
         .then(res => res.json())
         .then(data => this.foods = data)
         .catch(error => console.error('Error', error))
+      this.loading = false;
     },
     methods: {
       addVote(type, id) {

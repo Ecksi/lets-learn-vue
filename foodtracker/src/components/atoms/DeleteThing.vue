@@ -1,5 +1,5 @@
 <template>
-  <div @click="deleteThing" class="delete-thing">
+  <div v-on:click="deleteThing" class="delete-thing">
     &times;
   </div>
 </template>

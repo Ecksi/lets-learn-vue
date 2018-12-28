@@ -1,6 +1,6 @@
 <template>
   <form v-on:submit="addComment" action="">
-    <textarea class="text-area" name="" id="" cols="80" rows="5"></textarea>
+    <textarea class="text-area" v-model="text" id="" cols="80" rows="5"></textarea>
     <span class="submit-spacer"><button class="submit-comment">Submit Comment</button></span>
   </form>
 </template>
@@ -8,11 +8,16 @@
 <script>
   export default {
     name: 'AddComment',
+    data () {
+      return {
+        text: ''
+      }
+    },
     methods: {
       addComment() {
         event.preventDefault();
-        this.$emit('addComment', event.target.children[0].value);
-        event.target.children[0].value = '';
+        this.$emit('addComment', this.text);
+        this.text = '';
       },
     }
   }

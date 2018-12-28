@@ -18,7 +18,7 @@
           </div>
           <button>Add Food</button>
         </form>
-        <button class="btn-close" @click="close">&times;</button>
+        <button class="btn-close" v-on:click="close">&times;</button>
       </div>
     </div>
   </transition>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>{{ count }}</span>
-    <span @click="addVote(voteType)">{{ voteType === 'up' ? "👍" : "👎" }}</span>
+    <span @click="addVote(voteType)" class="vote-icon">{{voteType === 'up' ? "👍" : "👎"}}</span>
   </div>
 </template>
 
@@ -29,5 +29,9 @@
 <style scoped>
 span {
   padding: 0 4px;
+}
+
+.vote-icon {
+  cursor: pointer;
 }
 </style>

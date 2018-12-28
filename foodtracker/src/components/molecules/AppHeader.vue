@@ -2,7 +2,7 @@
   <div class="header">
     <div class="modal-container">
       <button type="button" class="add-food" @click="showModal">Add Food</button>
-      <Modal v-on:addFood="addFood" v-show="isModalVisible" @close="closeModal" />
+      <Modal @addFood="addFood" v-show="isModalVisible" @close="closeModal" />
     </div>
     <h1>Free 9er Food Feedback</h1>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="vote-container">
-      <VoteCount v-on:addVote="addVote" :count="upvote" voteType="up" class="up-vote" />
-      <VoteCount v-on:addVote="addVote" :count="downvote" voteType="down" />
+    <VoteCount @addVote="addVote" :count="upvote" voteType="up" class="up-vote" />
+    <VoteCount @addVote="addVote" :count="downvote" voteType="down" />
   </div>
 </template>
 

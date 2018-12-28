@@ -4,11 +4,14 @@
     <div class="comment-form">
       <section>
         <AddComment @addComment="addComment"></AddComment>
-        <ul v-for="comment in comments" :key="comment.id" class="card-list">
-          <li><Comment v-on:delete="deleteComment" v-on:addVote="addVote" :comment="comment" /></li>
+        <div v-if="comments.length===0" class="no-comment">
+          There are no comments, be the first to comment.
+        </div>
+        <ul v-else v-for="comment in comments" :key="comment.id" class="card-list">
+          <li><Comment @delete="deleteComment" @addVote="addVote" :comment="comment" /></li>
         </ul>
       </section>
-      <section class="spacer"></section>
+      <div class="spacer"></div>
     </div>
     <button v-on:click="hideComments" class="go-back">Go Back</button>
   </div>
@@ -29,10 +32,10 @@
     },
     methods: {
       hideComments() {
-        this.$emit('hideComments')
+        this.$emit('hideComments');
       },
       addVote(type, id) {
-        this.$emit('addVoteComment', type, id)
+        this.$emit('addVote', type, id);
       },
       addComment() {
         event.preventDefault();
@@ -40,7 +43,7 @@
         event.target.children[0].value = '';
       },
       deleteComment(id) {
-        this.$emit('delete', id)
+        this.$emit('delete', id);
       }
     },
   }
@@ -53,6 +56,12 @@
 
 .card-list {
   padding: 0;
+}
+
+.no-comment {
+  text-align: left;
+  margin-left: 40px;
+  margin-top: 20px;
 }
 
 .spacer {
