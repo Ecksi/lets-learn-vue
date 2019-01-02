@@ -18,7 +18,7 @@
           </div>
           <button>Add Food</button>
         </form>
-        <button class="btn-close" v-on:click="close">&times;</button>
+        <button class="btn-close" v-on:click="$emit('close')">&times;</button>
       </div>
     </div>
   </transition>
@@ -35,9 +35,6 @@
       }
     },
     methods: {
-      close() {
-        this.$emit('close');
-      },
       addFood() {
         event.preventDefault();
         this.$emit('addFood', this.name, this.description, this.image_url);

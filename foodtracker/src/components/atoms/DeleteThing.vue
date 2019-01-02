@@ -1,17 +1,12 @@
 <template>
-  <div v-on:click="deleteThing" class="delete-thing">
+  <div v-on:click="$emit('delete')" class="delete-thing">
     &times;
   </div>
 </template>
 
 <script>
   export default {
-    name: 'DeleteThing',
-    methods: {
-      deleteThing() {
-        this.$emit('delete');
-      }
-    }
+    name: 'DeleteThing'
   }
 </script>
 

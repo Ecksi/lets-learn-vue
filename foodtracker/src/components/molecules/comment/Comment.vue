@@ -2,7 +2,7 @@
   <div>
     <div class="card-body" :id="comment.id">
       <CardBody @addVote="addVote" :upvote="comment.up_vote" :downvote="comment.down_vote">{{ comment.comment }}</CardBody>
-      <DeleteThing @delete="deleteThing" />
+      <DeleteThing @delete="$emit('delete', comment.id)" />
     </div>
     <div class="comment-date"><DateSanitizer :date="comment.created_at" /></div>
   </div>
@@ -26,9 +26,6 @@
     methods: {
       addVote(voteType) {
         this.$emit('addVote', voteType, this.comment.id)
-      },
-      deleteThing() {
-        this.$emit('delete', this.comment.id)
       }
     },
     computed: {

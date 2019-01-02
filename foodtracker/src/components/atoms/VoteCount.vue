@@ -1,12 +1,13 @@
 <template>
   <div>
     <span>{{ count }}</span>
-    <span @click="addVote(voteType)" class="vote-icon">{{voteType === 'up' ? "👍" : "👎"}}</span>
+    <span @click="$emit('addVote', voteType)" class="vote-icon">{{voteType === 'up' ? "👍" : "👎"}}</span>
   </div>
 </template>
 
 <script>
   export default {
+    name: 'VoteCount',
     props: {
       count: {
         type: Number,
@@ -16,13 +17,7 @@
         type: String,
         required: true,
       }
-    },
-    name: 'VoteCount',
-    methods: {
-      addVote(voteType) {
-        this.$emit('addVote', voteType);
-      }
-    },
+    }
   }
 </script>
 
