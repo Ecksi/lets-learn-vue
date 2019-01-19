@@ -14,5 +14,17 @@
 </template>
 
 <style lang='less'>
-
+  .card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 5%;
+  }
+  .cards {
+    width: 18%;
+  }
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+  }
 </style>
