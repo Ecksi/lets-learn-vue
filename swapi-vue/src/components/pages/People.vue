@@ -1,13 +1,11 @@
 <template>
-  <div>
+  <div class='people'>
     <h1>People</h1>
-    <ul class='cards'>
-      <Card/>
-      <Card/>
-      <Card/>
-      <Card/>
-      <Card/>
-    </ul>
+    <div class='card-wrapper'>
+      <div v-for='person in people' :key='person.id' class='cards'>
+        <Card/>
+      </div>
+    </div>
     <div class='pagination'>
       <span>Prev</span>
       <span>1 2 3 4 5 </span>
@@ -25,8 +23,14 @@ import Card from '@/components/atoms/Card';
     components: {
       Card
     },
+    data() {
+      return {
+        people: []
+      }
+    },
     created() {
       getData('people')
+        .then(data => this.people = data.results);
     }
   }
 </script>
