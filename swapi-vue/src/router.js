@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Home from '@/components/pages/Home.vue'
 
 Vue.use(Router)
 
@@ -14,7 +14,7 @@ export default new Router({
     {
       path: '/films',
       name: 'films',
-      component: () => import('./views/Films.vue')
+      component: () => import('@/components/pages/Films.vue')
     },
     {
       path: '/people',
@@ -22,27 +22,27 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "people" */ './views/People.vue')
+      component: () => import(/* webpackChunkName: "people" */ '@/components/pages/People.vue')
     },
     {
       path: '/species',
       name: 'species',
-      component: () => import('./views/Species.vue')
+      component: () => import('@/components/pages/Species.vue')
     },
     {
       path: '/planets',
       name: 'planets',
-      component: () => import('./views/Planets.vue')
+      component: () => import('@/components/pages/Planets.vue')
     },
     {
       path: '/starships',
       name: 'starships',
-      component: () => import('./views/Starships.vue')
+      component: () => import('@/components/pages/Starships.vue')
     },
     {
       path: '/vehicles',
       name: 'vehicles',
-      component: () => import('./views/Vehicles.vue')
+      component: () => import('@/components/pages/Vehicles.vue')
     }
   ]
 })
