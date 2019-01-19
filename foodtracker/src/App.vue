@@ -2,7 +2,7 @@
   <div id="app">
     <AppHeader @addFood="addFood" />
     <Filters></Filters>
-    <img v-if="loading" src="https://media1.tenor.com/images/8ac12962c05648c55ca85771f4a69b2d/tenor.gif?itemid=9212724" alt="">
+    <img v-if="loading" src="https://media1.tenor.com/images/8ac12962c05648c55ca85771f4a69b2d/tenor.gif?itemid=9212724" alt="a loading gif" class="loading">
     <ul v-else v-for="food in foods" :key="food.id" class="card-list">
       <li><FoodCard :food="food" @addVote="addVote" /></li>
     </ul>
@@ -92,5 +92,9 @@
 
 .card-list {
   list-style-type: none;
+}
+
+.loading {
+  margin-top: 30px;
 }
 </style>
