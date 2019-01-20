@@ -1,6 +1,7 @@
 <template>
   <div class='card'>
-    I am a card
+    <h3>image PH</h3>
+    <slot/>
   </div>
 </template>
 
