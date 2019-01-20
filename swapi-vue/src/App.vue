@@ -14,14 +14,16 @@
 </template>
 
 <style lang='less'>
+// TODO: Fix second row of cards when there are less than 8
+// TODO: Pagination component
   .card-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     margin: 0 5%;
   }
   .cards {
     width: 18%;
+    margin-right: 2%;
   }
   .pagination {
     margin-top: 20px;

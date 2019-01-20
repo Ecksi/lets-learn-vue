@@ -11,42 +11,58 @@
         </Card>
       </div>
     </div>
-    <div class='pagination'>
-      <span>Prev</span>
-      <span>1 2 3 4 5 </span>
-      <span>Next</span>
-    </div>
+    <Pagination @nextSet='paginate(next)' @prevSet='paginate(prev)' @jumpTo='jumpTo' :prev='prev' :next='next' :count='count' />    
   </div>
 </template>
 
 <script>
-import {getDataByType, getData} from '@/js/getData';
+import {getDataByType, getData, getDataOnPage} from '@/js/getData';
 import Card from '@/components/atoms/Card';
+import Pagination from '@/components/atoms/Pagination';
 
   export default {
     name: 'Species',
     components: {
-      Card
-    },
-    props: {
-      first: String,
-      second: String,
-      third: String,
-      fourth: String
+      Card,
+      Pagination
     },
     data() {
       return {
         species: [],
-        planets: {}
+        planets: {},
+        next: null,
+        prev: null,
+        count: null
+      }
+    },
+    methods: {
+      paginate(direction) {
+        return getData(direction)
+          .then(data => {
+            this.species = data.results
+            this.next = data.next
+            this.prev = data.previous
+          })
+      },
+      jumpTo(index) {
+        return getDataOnPage('species', index)
+          .then(data => {
+            this.species = data.results
+            this.next = data.next
+            this.prev = data.previous
+          })
       }
     },
     created() {
       getDataByType('species')
         .then(data => {
           this.species = data.results
+          this.next = data.next
+          this.prev = data.previous
+          this.count = data.count
           this.species.forEach(specie => {
             getData(specie.homeworld)
-            .then(response => this.planets[response.data.url] = response.data.name)
+            .then(data => this.planets[data.url] = data.name)
         })
           // .catch(error => error)
       })

@@ -11,16 +11,10 @@
         </Card>
       </div>
     </div>
-    <div class='pagination'>
-      <span>Prev</span>
-      <span>1 2 3 4 5 </span>
-      <span>Next</span>
-    </div>
   </div>
 </template>
 
 <script>
-// TODO: Order films my episode
 import {getDataByType} from '@/js/getData';
 import Card from '@/components/atoms/Card';
 
@@ -34,9 +28,18 @@ import Card from '@/components/atoms/Card';
         films: []
       }
     },
+    methods: {
+      sortFilms: (a,b) => {
+        if (a.episode_id < b.episode_id)
+          return -1;
+        if (a.episode_id > b.episode_id)
+          return 1;
+        return 0;
+      }
+    },
     created() {
       getDataByType('films')
-        .then(data => this.films = data.results)
+        .then(data => this.films = data.results.sort(this.sortFilms))
     }
   }
 </script>

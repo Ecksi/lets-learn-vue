@@ -11,31 +11,55 @@
         </Card>
       </div>
     </div>
-    <div class='pagination'>
-      <span>Prev</span>
-      <span>1 2 3 4 5 </span>
-      <span>Next</span>
-    </div>
+    <Pagination @nextSet='paginate(next)' @prevSet='paginate(prev)' @jumpTo='jumpTo' :prev='prev' :next='next' :count='count' />
   </div>
 </template>
 
 <script>
-import {getDataByType} from '@/js/getData';
+import {getDataByType, getData, getDataOnPage} from '@/js/getData';
 import Card from '@/components/atoms/Card';
+import Pagination from '@/components/atoms/Pagination';
 
   export default {
     name: 'Vehicles',
     components: {
-      Card
+      Card,
+      Pagination
     },
     data() {
       return {
-        vehicles: []
+        vehicles: [],
+        next: null,
+        prev: null,
+        count: null
+      }
+    },
+    methods: {
+      paginate(direction) {
+        return getData(direction)
+          .then(data => {
+            this.vehicles = data.results
+            this.next = data.next
+            this.prev = data.previous
+          })
+      },
+      jumpTo(index) {
+        return getDataOnPage('vehicles', index)
+          .then(data => {
+            this.vehicles = data.results
+            this.next = data.next
+            this.prev = data.previous
+          })
       }
     },
     created() {
       getDataByType('vehicles')
-        .then(data => this.vehicles = data.results)
+        .then(data => {
+          this.vehicles = data.results
+          this.next = data.next
+          this.prev = data.previous
+          this.count = data.count
+        })
         .catch(error => error)
     }
   }
