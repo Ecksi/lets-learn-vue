@@ -3,7 +3,12 @@
     <h1>People</h1>
     <div class='card-wrapper'>
       <div v-for='person in people' :key='person.id' class='cards'>
-        <Card/>
+        <Card>
+          <p>name: {{person.name}}</p>
+          <!-- <p>homeworld: {{planets[person.homeworld]}}</p> -->
+          <!-- <p>species: {{species[person.species[0]].name}}</p> -->
+          <!-- <p>language: {{species[person.species[0]].language}}</p> -->
+        </Card>
       </div>
     </div>
     <div class='pagination'>
@@ -15,7 +20,7 @@
 </template>
 
 <script>
-import getData from '@/js/getData';
+import {getDataByType, getData} from '@/js/getData';
 import Card from '@/components/atoms/Card';
 
   export default {
@@ -25,12 +30,31 @@ import Card from '@/components/atoms/Card';
     },
     data() {
       return {
-        people: []
+        people: [],
+        planets: {},
+        species: {}
       }
     },
     created() {
-      getData('people')
-        .then(data => this.people = data.results);
+      getDataByType('people')
+        .then(data => {
+          this.people = data.results
+          this.people.forEach(person => {
+            if (!this.planets[person.homeworld]) {
+              getData(person.homeworld)
+                .then(response => this.planets[response.data.url] = response.data.name)
+                .catch(error => error)
+            }
+            if (!this.species[person.species[0]]) {
+              getData(person.species[0])
+                .then(response => this.species[response.data.url] = {
+                  name: response.data.name,
+                  language: response.data.language
+                })
+                .catch(error => error)
+            }
+          })
+        })
     }
   }
 </script>
