@@ -1,7 +1,13 @@
 import axios from 'axios';
 
-export default function getData(type) {
+export function getData(string) {
+  return axios.get(string)
+    .then(response => response)
+    .catch(error => error)
+}
+
+export function getDataByType(type) {
   return axios.get(`https://swapi.co/api/${type}`)
     .then(response => response.data)
-    .catch(error => console.log(error))
+    .catch(error => error)
 }
