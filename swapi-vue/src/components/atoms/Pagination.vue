@@ -2,7 +2,7 @@
   <div class='pagination'>
     <span v-show='prev' @click='$emit("prevSet")' class='paginate'>Prev </span>
     <ul v-for='index in pageCount' :key='index'>
-      <li @click='$emit("jumpTo", index)'>{{index}}</li>
+      <li @click='$emit("jumpTo", index)' class='page-num'>{{index}}</li>
     </ul>
     <span v-show='next' @click='$emit("nextSet")' class='paginate'> Next</span>
   </div>
@@ -28,7 +28,7 @@
   .pagination {
     text-align: center;
   }
-  .paginate {
+  .paginate, .page-num {
     cursor: pointer;
   }
   ul {

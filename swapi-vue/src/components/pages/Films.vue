@@ -1,31 +1,22 @@
 <template>
-  <div>
-    <h1>Films</h1>
-    <div class='card-wrapper'>
-      <div v-for='film in films' :key='film.id' class='cards'>
-        <Card>
-          <p>title: {{film.title}}</p>
-          <p>episode: {{film.episode_id}}</p>
-          <p>release date: {{film.release_date}}</p>
-          <p>director: {{film.director}}</p>
-        </Card>
-      </div>
-    </div>
-  </div>
+  <Wrapper :payLoad='payLoad' />
 </template>
 
 <script>
 import {getDataByType} from '@/js/getData';
-import Card from '@/components/atoms/Card';
+import Wrapper from '@/components/organisms/Wrapper';
 
   export default {
     name: 'Films',
     components: {
-      Card
+      Wrapper
     },
     data() {
       return {
-        films: []
+        payLoad: {
+          header: 'Films',
+          type: [],
+        }
       }
     },
     methods: {
@@ -39,7 +30,18 @@ import Card from '@/components/atoms/Card';
     },
     created() {
       getDataByType('films')
-        .then(data => this.films = data.results.sort(this.sortFilms))
+        .then(data => {
+          data.results.sort(this.sortFilms).forEach(elem => {
+            const cardData = {
+              catOne: `title: ${elem.title}`,
+              catTwo: `episode id: ${elem.episode_id}`,
+              catThree: `release: ${elem.release_date}`,
+              catFour: `director: ${elem.director}`,
+            }
+            this.payLoad.type.push(cardData)
+          })
+        })
+        .catch(error => error)
     }
   }
 </script>

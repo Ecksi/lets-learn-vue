@@ -1,71 +1,73 @@
 <template>
-  <div>
-    <h1>Species</h1>
-    <div class='card-wrapper'>
-      <div v-for='specie in species' :key='specie.id' :first='specie.name' class='cards'>
-        <Card>
-          <p>name: {{specie.name}}</p>
-          <p>classification: {{specie.classification}}</p>
-          <!-- <p>homeworld: {{planet[specie.homeworld]}}</p> -->
-          <p>language: {{specie.language}}</p>
-        </Card>
-      </div>
-    </div>
-    <Pagination @nextSet='paginate(next)' @prevSet='paginate(prev)' @jumpTo='jumpTo' :prev='prev' :next='next' :count='count' />    
-  </div>
+  <Wrapper 
+    :payLoad='payLoad'
+    @nextSet='paginate(payLoad.next)'
+    @prevSet='paginate(payLoad.prev)'
+    @jumpTo='paginate'
+  />
 </template>
 
 <script>
-import {getDataByType, getData, getDataOnPage} from '@/js/getData';
-import Card from '@/components/atoms/Card';
-import Pagination from '@/components/atoms/Pagination';
+import {getDataByType, getDataOnPage} from '@/js/getData';
+import Wrapper from '@/components/organisms/Wrapper';
 
   export default {
     name: 'Species',
     components: {
-      Card,
-      Pagination
+      Wrapper
     },
     data() {
       return {
-        species: [],
-        planets: {},
-        next: null,
-        prev: null,
-        count: null
+        payLoad: {
+          header: 'Species',
+          type: [],
+          next: null,
+          prev: null,
+          count: null
+        }
       }
     },
     methods: {
-      paginate(direction) {
-        return getData(direction)
-          .then(data => {
-            this.species = data.results
-            this.next = data.next
-            this.prev = data.previous
-          })
-      },
-      jumpTo(index) {
+      paginate(index) {
+        if (typeof index === 'string') {
+          index = parseInt(index.match(/\d+/g)[0])
+        }
+
         return getDataOnPage('species', index)
           .then(data => {
-            this.species = data.results
-            this.next = data.next
-            this.prev = data.previous
+            this.payLoad.type = []
+            this.payLoad.next = data.next
+            this.payLoad.prev = data.previous
+            data.results.forEach(elem => {
+              const cardData = {
+                catOne: `name: ${elem.name}`,
+                catTwo: `classification: ${elem.classification}`,
+                catThree: `homeworld: ${elem.homeworld}`,
+                catFour: `language: ${elem.language}`,
+              }
+              this.payLoad.type.push(cardData)
+            })
           })
+          .catch(error => error)
       }
     },
     created() {
       getDataByType('species')
         .then(data => {
-          this.species = data.results
-          this.next = data.next
-          this.prev = data.previous
-          this.count = data.count
-          this.species.forEach(specie => {
-            getData(specie.homeworld)
-            .then(data => this.planets[data.url] = data.name)
+          this.payLoad.next = data.next
+          this.payLoad.prev = data.previous
+          this.payLoad.count = data.count
+          data.results.forEach(elem => {
+            const cardData = {
+              catOne: `name: ${elem.name}`,
+              catTwo: `classification: ${elem.classification}`,
+              catThree: `homeworld: ${elem.homeworld}`,
+              catFour: `language: ${elem.language}`,
+            }
+            this.payLoad.type.push(cardData)
         })
-          // .catch(error => error)
       })
+      .catch(error => error)
     }
   }
 </script>
