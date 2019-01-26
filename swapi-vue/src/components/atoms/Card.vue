@@ -1,6 +1,6 @@
 <template>
   <div class='card'>
-    <h3>image PH</h3>
+    <h3>imagePH <span>AddFavorite</span></h3>
     <slot/>
   </div>
 </template>

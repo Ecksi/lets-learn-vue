@@ -8,8 +8,9 @@
 </template>
 
 <script>
-import {getDataByType, getDataOnPage} from '@/js/getData';
+import {getDataByType, getData, getDataOnPage} from '@/js/getData';
 import Wrapper from '@/components/organisms/Wrapper';
+import { mapState } from 'vuex';
 
   export default {
     name: 'Species',
@@ -45,6 +46,7 @@ import Wrapper from '@/components/organisms/Wrapper';
                 catThree: `homeworld: ${elem.homeworld}`,
                 catFour: `language: ${elem.language}`,
               }
+              getData(elem.homeworld).then(data => cardData['catThree'] = `homeworld: ${data.name}`)
               this.payLoad.type.push(cardData)
             })
           })
@@ -64,6 +66,7 @@ import Wrapper from '@/components/organisms/Wrapper';
               catThree: `homeworld: ${elem.homeworld}`,
               catFour: `language: ${elem.language}`,
             }
+            getData(elem.homeworld).then(data => cardData['catThree'] = `homeworld: ${data.name}`)
             this.payLoad.type.push(cardData)
         })
       })

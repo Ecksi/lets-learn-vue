@@ -33,8 +33,8 @@ import Wrapper from '@/components/organisms/Wrapper';
         .then(data => {
           data.results.sort(this.sortFilms).forEach(elem => {
             const cardData = {
-              catOne: `title: ${elem.title}`,
-              catTwo: `episode id: ${elem.episode_id}`,
+              catOne: `episode ${elem.episode_id}`,
+              catTwo: `${elem.title}`,
               catThree: `release: ${elem.release_date}`,
               catFour: `director: ${elem.director}`,
             }
