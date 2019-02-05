@@ -1,17 +1,21 @@
 <template>
   <div>
-    this section is under construction<br/>
-    <button>Most Upvotes</button>
-    <button>Most Downvotes</button>
-    <!-- <button>Most Comments</button> Not sure on this one. -->
-    <button>Newest</button>
-    <input type="text" placeholder="search by name">
+    <button @click='$emit("filterVote", "up")'>Most Upvotes</button>
+    <button @click='$emit("filterVote", "down")'>Most Downvotes</button>
+    <button @click='$emit("filterDate", "newest")'>Newest</button>
+    <button @click='$emit("filterDate", "oldest")'>Oldest</button>
+    <input @keyup="$emit('filterText', searchText)" v-model='searchText' type="text" placeholder="search by name">
   </div>
 </template>
 
 <script>
   export default {
     name: 'Filters',
+    data() {
+      return {
+        searchText: ''
+      }
+    }
   }
 </script>
 
