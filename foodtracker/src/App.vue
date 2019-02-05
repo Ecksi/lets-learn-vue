@@ -1,36 +1,40 @@
 <template>
   <div id="app">
     <AppHeader @addFood="addFood" />
-    <Filters></Filters>
-    <img v-if="loading" src="https://media1.tenor.com/images/8ac12962c05648c55ca85771f4a69b2d/tenor.gif?itemid=9212724" alt="a loading gif" class="loading">
-    <ul v-else v-for="food in foods" :key="food.id" class="card-list">
-      <li><FoodCard :food="food" @addVote="addVote" /></li>
+    <PhoneFormatter />
+    <Filters 
+      @filterVote="filterVote"
+      @filterDate="filterDate"
+      @filterText="filterText" />
+    <img v-if="loading" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif" alt="a loading gif" class="loading">
+    <ul v-else v-for="food in currentFoods" :key="food.id" class="card-list">
+      <li><FoodCard :food="food" @addVote="addVote" @deleteFood="deleteFood" /></li>
     </ul>
+    <Pagination @changePage='changePage' :numberOfItems='foods.length' :currentPage='currentPage' />
   </div>
-  <!-- limit search to 3 per page
-        import fetch from external jsFile
-        toy with refetch
-        vuex later
-        import momentjs and replace datesanitizer
-        test
-    -->
 </template>
 
 <script>
   import AppHeader from './components/molecules/AppHeader';
   import Filters from './components/molecules/Filters';
   import FoodCard from './components/organisms/FoodCard';
+  import Pagination from '@/components/atoms/Pagination';
+  import PhoneFormatter from '@/components/atoms/PhoneFormatter';2
 
   export default {
     name: 'app',
     components: {
       AppHeader,
       Filters,
-      FoodCard
+      FoodCard,
+      Pagination,
+      PhoneFormatter
     },
     data: () => {
       return {
         foods: [],
+        currentFoods: [],
+        currentPage: 1,
         loading: false
       }
     },
@@ -40,6 +44,8 @@
         .then(res => res.json())
         .then(data => {
           this.foods = data;
+          this.foods.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+          this.currentFoods = this.foods.slice(0, 4)
           this.loading = false;
         })
         .catch(error => {
@@ -73,13 +79,50 @@
           headers:{
             'Content-Type': 'application/json'
           }
-        }).then(res => res.json())
-        .then(response => {
-          console.log('Success:', JSON.stringify(response));
-          this.foods.push(response);
+        })
+        .then(({response}) => {
+          this.getFoods();
           window.alert(`You just added ${response.name} to the 9er Food Review`);
         })
         .catch(error => console.error('Error:', error));
+      },
+      deleteFood(id) {
+        fetch(`https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food/${id}`, { method: 'DELETE' })
+          .then(({response}) => this.getFoods())
+          .catch(error => console.error('Error:', error));
+      },
+      getFoods() {
+        this.loading = true;
+        fetch('https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food')
+          .then(res => res.json())
+          .then(data => {
+            this.foods = data;
+            this.foods.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+            this.currentFoods = this.foods.slice(0, 4)
+            this.loading = false;
+          })
+          .catch(error => {
+            this.loading = false;
+            console.error('Error', error);
+          })
+      },
+      filterVote(type) { this.foods.sort((a,b) => b[`${type}_vote`] - a[`${type}_vote`])},
+      filterDate(type) {
+        type === 'oldest'
+          ? this.foods.sort((a,b) => new Date(a.created_at) - new Date(b.created_at))
+          : this.foods.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+      },
+      filterText(chars) {
+        this.currentFoods = this.foods.filter(food => food.name.toLowerCase().includes(chars.toLowerCase()));
+      },
+      changePage(pageNum) {
+        this.currentPage = pageNum;
+        this.currentFoods = this.foods.slice((pageNum - 1) * 4, (pageNum - 1) * 4 + 4)
+      }
+    },
+    watch: {
+      currentFoods() {
+        this.currentFoods.length === this.foods.length && this.getFoods()
       }
     }
   }
@@ -95,6 +138,6 @@
 }
 
 .loading {
-  margin-top: 30px;
+  margin-top: 60px;
 }
 </style>
