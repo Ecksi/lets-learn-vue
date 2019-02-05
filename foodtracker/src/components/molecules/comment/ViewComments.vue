@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!show" class="right">
-      <button v-on:click="fetchComments" class="view-comments">View comments</button>
+      <button @click="fetchComments" class="view-comments">View comments</button>
     </div>
     <CommentForm v-else 
       @delete="deleteComment"
@@ -70,13 +70,8 @@
           .catch(error => console.error('Error:', error));
       },
       deleteComment(id) {
-        fetch(`https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food/${this.foodId}/comment/${id}`, {
-          method: 'DELETE',
-        }).then(res => res.json())
-          .then(response => {
-            console.log('Success:', JSON.stringify(response));
-            this.comments.filter(el => el.id !== id);
-          })
+        fetch(`https://cors-anywhere.herokuapp.com/http://calm-caverns-24814.herokuapp.com/food/${this.foodId}/comment/${id}`, { method: 'DELETE' })
+          .then(({response}) => this.comments = this.comments.filter(el => el.id !== id))
           .catch(error => console.error('Error:', error));
       },
       hideComments() {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="comment">
     <div class="card-body" :id="comment.id">
       <CardBody @addVote="addVote" :upvote="comment.up_vote" :downvote="comment.down_vote">{{ comment.comment }}</CardBody>
       <DeleteThing @delete="$emit('delete', comment.id)" />
@@ -43,8 +43,15 @@
 </script>
 
 <style scoped>
+.comment {
+  margin-top: 15px;
+  margin-left: 15px;
+  padding: 10px 20px 15px 0;
+  border: 0.5px solid #999;
+}
+
 .comment-date {
-  text-align: left;
+  text-align: right;
   margin-top: 5px;
   margin-left: 60px;
 }
