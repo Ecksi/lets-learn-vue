@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="$emit('delete')" class="delete-thing">
+  <div @click="$emit('delete')" class="delete-thing">
     &times;
   </div>
 </template>
@@ -11,7 +11,7 @@
 </script>
 
 <style scoped>
-.delete-thing {
-  cursor: pointer;
-}
+  .delete-thing {
+    cursor: pointer;
+  }
 </style>
